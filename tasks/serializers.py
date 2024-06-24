@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Task
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     #is_owner = serializers.SerializerMethodField()
 
     class Meta:
-        model = Profile
+        model = Task
         fields = [
-            'id', 'owner', 'created_at', 'updated_at', 'first_name', 'last_name', 'image'
+            'id', 'owner', 'start_date', 'end_date', 'completed', 'priority', 'category'
         ]
