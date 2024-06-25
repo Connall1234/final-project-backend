@@ -30,5 +30,6 @@ class Task(models.Model):
         default='O',
 )
     
+    
     def __str__(self):
         return self.title
