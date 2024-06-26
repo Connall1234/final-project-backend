@@ -72,7 +72,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'https://project-5-backend-api-connall-3eb143768597.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'https://project-5-backend-api-connall-3eb143768597.herokuapp.com/']
 
 
 # Application definition
