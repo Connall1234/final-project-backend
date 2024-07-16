@@ -7,7 +7,7 @@ class Task(models.Model):
         ('M', 'Medium'),
         ('H', 'High'),
     ]
-    
+ 
     CATEGORY_CHOICES = [
         ('W', 'Work'),
         ('P', 'Personal'),

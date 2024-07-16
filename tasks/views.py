@@ -13,7 +13,7 @@ class TaskList(generics.ListCreateAPIView):
     This will list all tasks the user has and create new tasks.
     """
     queryset = Task.objects.all()  # Define your queryset here
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     serializer_class = TaskSerializer
     filter_backends = [
         filters.OrderingFilter,
@@ -56,7 +56,7 @@ class TaskList(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()  
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     serializer_class = TaskSerializer
 
     def get_queryset(self):
