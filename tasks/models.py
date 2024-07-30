@@ -17,7 +17,7 @@ class Task(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     start_date = models.DateField()  # Changed from DateTimeField to DateField
-    end_date = models.DateField()   
+    #end_date = models.DateField()   
     completed = models.BooleanField(default=False)
     priority = models.CharField(
         max_length=1,

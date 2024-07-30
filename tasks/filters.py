@@ -11,7 +11,7 @@ class TaskFilter(django_filters.FilterSet):
             'category': ['exact'],
             'priority': ['exact'],
             'start_date': ['gte', 'lte'],
-            'end_date': ['gte', 'lte'],
+            #'end_date': ['gte', 'lte'],
             'title': ['icontains'],
             'description': ['icontains'],
         }
