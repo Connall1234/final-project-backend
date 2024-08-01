@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class ProfileList(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
 
     """
     This will list all profiles we have
@@ -23,7 +23,7 @@ class ProfileList(APIView):
 
 class ProfileDetail(APIView):
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     def get_object(self, pk): 
         try:
             profile = Profile.objects.get(pk=pk)
