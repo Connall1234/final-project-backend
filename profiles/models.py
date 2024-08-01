@@ -9,6 +9,8 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
+    bio = models.CharField(max_length=500, blank=True, null=True)  # Set a maximum length
+
     image = models.ImageField(
         upload_to='images/', default='../cld-sample'
     )
