@@ -12,7 +12,7 @@ class Profile(models.Model):
     bio = models.CharField(max_length=500, blank=True, null=True)  # Set a maximum length
 
     image = models.ImageField(
-        upload_to='images/', default='../default_profile_sl5por'
+        upload_to='images/', default='../default_profile_mlz9up'
     )
     
 
