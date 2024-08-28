@@ -218,9 +218,6 @@ else:
     }
  
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'profiles.serializers.CustomRegisterSerializer',
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
