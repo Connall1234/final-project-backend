@@ -8,6 +8,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     completed_tasks_count = serializers.SerializerMethodField()
     total_tasks_count = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+
     #is_owner = serializers.SerializerMethodField()
 
     class Meta:
