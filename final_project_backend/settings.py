@@ -238,6 +238,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Added for first/last names
+
+AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
