@@ -8,15 +8,23 @@ from .settings import (
 
 @api_view()
 def root_route(request):
+    """
+    Handles GET requests to the root URL.
+    Returns a welcome message.
+    """
     return Response({
         "message": "Welcome to my final project API!"
     })
 
 
-# dj-rest-auth logout view fix
 @api_view(['POST'])
 def logout_route(request):
+    """
+    Handles POST requests to log out users by clearing JWT cookies.
+    Sets cookies to expire immediately.
+    """
     response = Response()
+
     response.set_cookie(
         key=JWT_AUTH_COOKIE,
         value='',
@@ -26,6 +34,7 @@ def logout_route(request):
         samesite=JWT_AUTH_SAMESITE,
         secure=JWT_AUTH_SECURE,
     )
+
     response.set_cookie(
         key=JWT_AUTH_REFRESH_COOKIE,
         value='',
@@ -35,4 +44,6 @@ def logout_route(request):
         samesite=JWT_AUTH_SAMESITE,
         secure=JWT_AUTH_SECURE,
     )
+
     return response
+#pepchecked

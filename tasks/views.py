@@ -2,19 +2,19 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from datetime import date  # For overdue count
+from datetime import date
 
 from .models import Task
 from .serializers import TaskSerializer
 from .filters import TaskFilter
-from final_project_backend.permissions import IsOwnerOrReadOnly
+
 
 class TaskView(generics.GenericAPIView):
     """
     Handle listing, retrieving, creating, updating, and deleting tasks.
     """
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]  # Updated to allow only authenticated users
+    permission_classes = [IsAuthenticated]
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
@@ -30,13 +30,14 @@ class TaskView(generics.GenericAPIView):
     ordering_fields = [
         'priority',
         'category',
-        'start_date',  
-        'end_date',        
+        'start_date',
+        'end_date',
     ]
 
     def get_queryset(self):
         """
-        Filter tasks to show all tasks for superusers or only tasks owned by the current user.
+        Filter tasks to show all tasks for superusers or only tasks owned
+        by the current user.
         """
         if self.request.user.is_superuser:
             return Task.objects.all()
@@ -46,23 +47,25 @@ class TaskView(generics.GenericAPIView):
         """
         Handle GET requests:
         - If `pk` is provided: Retrieve a specific task.
-        - If `pk` is not provided: List tasks with counts of completed, incomplete, and overdue tasks.
+        - If `pk` is not provided: List tasks with counts of completed,
+          incomplete, and overdue tasks.
         """
         if pk is not None:
-            # Retrieve a specific task
             task = self.get_queryset().filter(pk=pk).first()
             if not task:
-                return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
-            
+                return Response({'detail': 'Not found.'},
+                                status=status.HTTP_404_NOT_FOUND)
+
             self.check_object_permissions(request, task)
             serializer = self.get_serializer(task)
             return Response(serializer.data)
-        
-        # List tasks
+
         queryset = self.get_queryset()
         completed_count = queryset.filter(completed=True).count()
         incomplete_count = queryset.filter(completed=False).count()
-        overdue_count = queryset.filter(completed=False, start_date__lt=date.today()).count()
+        overdue_count = queryset.filter(
+            completed=False, start_date__lt=date.today()
+        ).count()
 
         serializer = self.get_serializer(queryset, many=True)
         response_data = {
@@ -89,10 +92,12 @@ class TaskView(generics.GenericAPIView):
         """
         task = self.get_queryset().filter(pk=pk).first()
         if not task:
-            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'Not found.'},
+                            status=status.HTTP_404_NOT_FOUND)
 
         self.check_object_permissions(request, task)
-        serializer = self.get_serializer(task, data=request.data, partial=True)
+        serializer = self.get_serializer(task, data=request.data,
+                                         partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -104,8 +109,10 @@ class TaskView(generics.GenericAPIView):
         """
         task = self.get_queryset().filter(pk=pk).first()
         if not task:
-            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'Not found.'},
+                            status=status.HTTP_404_NOT_FOUND)
 
         self.check_object_permissions(request, task)
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+#pep8checked

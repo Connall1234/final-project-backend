@@ -12,35 +12,30 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import dj_database_url
-
 import os
 
 if os.path.exists('env.py'):
     import env
 
 CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL' : os.environ.get('CLOUDINARY_URL')
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
+
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [(
-        'rest_framework.authentication.SessionAuthentication'
-        if 'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-    )],
-
-#    'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated'
-#     ),
-
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        (
+            'rest_framework.authentication.SessionAuthentication'
+            if 'DEV' in os.environ
+            else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        )
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 60,
     'DATETIME_FORMAT': '%d %b %Y',
 }
@@ -50,23 +45,16 @@ if 'DEV' not in os.environ:
         'rest_framework.renderers.JSONRenderer',
     ]
 
-
 REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
-
 REST_AUTH_SERIALIZERS = {
-  'USER_DETAILS_SERIALIZER': 'final_project_backend.serializers.CurrentUserSerializer'
+    'USER_DETAILS_SERIALIZER': 'final_project_backend.serializers.'
+                               'CurrentUserSerializer'
 }
-
-# Wrong code below??
-# REST_AUTH_SERIALIZERS = {
-#   'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
-# }
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -77,11 +65,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'project-5-backend-api-connall-3eb143768597.herokuapp.com']
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'project-5-backend-api-connall-3eb143768597.herokuapp.com'
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -95,15 +84,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django_filters',
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'corsheaders',
-
-
     'profiles',
     'tasks',
 ]
@@ -121,55 +107,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# if 'CLIENT_ORIGIN' in os.environ:
-#     CORS_ALLOWED_ORIGINS = [
-#         os.environ.get('CLIENT_ORIGIN')
-#     ]
-# else:
-#     CORS_ALLOWED_ORIGIN_REGEXES = [
-#         r"http://localhost:3000" ,
-#     ]
-
-# settings.py
-#above was old settings 23rd aug
-
-#Below works for frontend
-
-
-# if 'CLIENT_ORIGIN' in os.environ:
-#     CORS_ALLOWED_ORIGINS = [
-#         os.environ.get('CLIENT_ORIGIN')
-#     ]
-# else:
-#     CORS_ALLOWED_ORIGINS = [
-#         'https://ci-project-5-frontend-connall-0e9d76f51490.herokuapp.com'
-#     ]
-
-# Above works for frontend
-
-# Below will be used for development 
-
 if 'CLIENT_ORIGIN_DEV' in os.environ:
-    # Allow localhost:3000 for development
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN_DEV')
     ]
 elif 'CLIENT_ORIGIN' in os.environ:
-    # Allow the production frontend
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
     ]
 else:
-    # Default to the Heroku-deployed frontend URL
     CORS_ALLOWED_ORIGINS = [
         'https://ci-project-5-frontend-connall-0e9d76f51490.herokuapp.com'
     ]
 
-# Above is used for development
-
-
 CORS_ALLOW_CREDENTIALS = True
-
 
 ROOT_URLCONF = 'final_project_backend.urls'
 
@@ -191,20 +142,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'final_project_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL", "postgres://localhost/defaultdb")),
-# }
 
 if 'DEV' in os.environ:
     DATABASES = {
@@ -215,26 +154,28 @@ if 'DEV' in os.environ:
     }
 else:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
- 
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'NumericPasswordValidator',
     },
 ]
 
@@ -251,7 +192,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -261,3 +201,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#pepchecked
