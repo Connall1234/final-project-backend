@@ -1,131 +1,84 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+## The Application
 
-Welcome USER_NAME,
+Link to the published site [here](https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/)
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+Please find the Frontend Repo [here](https://github.com/Connall1234/ci-project-5-frontend)
 
-You can safely delete this README.md file or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **June 18, 2024**
+Please find the Backend Repo [here](https://github.com/Connall1234/final-project-backend)
 
-## Gitpod Reminders
+Welcome to OnTrack, a task managing application that lets you create, edit, delete, and tick off tasks during your day. We also feature a profile section where you can change your profile image and your bio, as well as some rewards that you can track along the way.
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+The purpose of this project was to bring to life a task managing app that would be simple and effective to use, without having too many intricacies to work through.
 
-`python3 -m http.server`
+We wanted to make an application that would be easy to understand right away and be useful to a potential customer.
 
-A blue button should appear to click: _Make Public_,
+## Entity-Relationship Diagram
 
-Another blue button should appear to click: _Open Browser_.
+The ER (Entity-Relationship) diagram represents the relationships between the three main models in the Django backend: `User`, `Profile`, and `Task`. 
 
-To run a backend Python file, type `python3 app.py` if your Python file is named `app.py`, of course.
+### Relationships
 
-A blue button should appear to click: _Make Public_,
+- **User to Profile: One-to-One (1:1)**
+  - The `User` model, provided by Django's authentication system, has a One-to-One relationship with the `Profile` model. This means that each user in the system has one and only one profile, which contains additional information such as a bio and profile image.
 
-Another blue button should appear to click: _Open Browser_.
+- **User to Task: One-to-Many (1:N)**
+  - The `User` model has a One-to-Many relationship with the `Task` model. This allows each user to create multiple tasks, where each task is associated with a specific user. The `Task` model includes attributes such as the task title, description, start date, completion status, priority, and category, enabling users to manage and organize their tasks effectively.
 
-By Default, Gitpod gives you superuser security privileges. Therefore, you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+The relationships between these models ensure that the system can manage user profiles and tasks in a scalable and organized manner.
 
-To log into the Heroku toolbelt CLI:
+![ER Diagram](assets/images/database_diagram.jpg)
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+## Django Backend Overview
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you, so do not share it. If you accidentally make it public, you can create a new one with _Regenerate API Key_.
+The backend of this application is built using Python and the Django framework. The backend defines three main models: `User`, `Profile`, and `Task`. Each model supports full CRUD (Create, Read, Update, Delete) functionality, enabling users to create and manage their profiles and tasks efficiently. The `User` model, provided by Django's authentication system, handles authentication and associations with both `Profile` and `Task` models.
 
-### Connecting your Mongo database
+### Models and Access Control
 
-- **Connect to Mongo CLI on a IDE**
-- navigate to your MongoDB Clusters Sandbox
-- click **"Connect"** button
-- select **"Connect with the MongoDB shell"**
-- select **"I have the mongo shell installed"**
-- choose **mongosh (2.0 or later)** for : **"Select your mongo shell version"**
-- choose option: **"Run your connection string in your command line"**
-- in the terminal, paste the copied code `mongo "mongodb+srv://<CLUSTER-NAME>.mongodb.net/<DBname>" --apiVersion 1 --username <USERNAME>`
-  - replace all `<angle-bracket>` keys with your own data
-- enter password _(will not echo **\*\*\*\*** on screen)_
+- **Profile and Task Models**: 
+  - The `Profile` model is linked to the `User` model via a One-to-One relationship, storing additional user information such as a bio and profile image.
+  - The `Task` model is linked to the `User` model via a One-to-Many relationship, allowing each user to create and manage multiple tasks. Each task contains attributes like title, description, start date, completion status, priority, and category.
+  - Additionally, the `Task` model includes an `overdue` boolean value, which is set to `True` if the current date has passed the task's start date without the task being marked as completed. Tasks also have a `completed` boolean value that indicates whether or not the task has been finished. These fields help users track their task progress and manage overdue tasks effectively.
 
-------
+### Access Control
 
-## Release History
+- **Superuser Access**: 
+  - The superuser, who is created during the Django setup, has full access to all profiles and tasks in the system. This allows the superuser to view, edit, and delete any user’s profile or task, providing complete administrative control over the backend.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+- **Standard User Access**: 
+  - Apart from the superuser, standard users can only access their own profiles and tasks. Users are restricted from accessing or modifying the profiles and tasks of other users. This access control is enforced by Django’s authentication and permission system, ensuring that user data remains secure and private.
+## Backend Testing
 
-**June 18, 2024,** Add Mongo back into template
+### Access Control Testing
 
-**June 14, 2024,** Temporarily remove Mongo until the key issue is resolved
+We conducted a series of tests to ensure that access control is properly enforced on both the profiles and tasks endpoints. These tests were designed to verify that users cannot access data unless they are authenticated and that they can only view their own data once logged in.
 
-**May 28 2024:** Fix Mongo and Links installs
+#### 1. Access Without Authentication
+- **Test Description**: Attempted to access the `/profiles` and `/tasks` endpoints without being logged in.
+- **Expected Outcome**: The system should return a 401 Unauthorized response, blocking access to these resources.
+- **Result**: As expected, the system successfully blocked access, returning the appropriate 401 status code.
 
-**April 26 2024:** Update node version to 16
+![Tasks with no access](assets/images/backend_unable_to_see_tasks_not_loggedin.jpg)
 
-**September 20 2023:** Update Python version to 3.9.17.
+![Profiles with no access](assets/images/backend_unable_to_see_profiles_not_loggedin.jpg)
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+#### 2. Access With Authentication
+- **Test Description**: Logged in as a user and attempted to access the `/profiles` and `/tasks` endpoints.
+- **Expected Outcome**: The user should only be able to view their own profile and tasks.
+- **Result**: Upon authentication, the system allowed access to the user's profile and tasks, but no other users' data was accessible.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+![Tasks with access](assets/images/backend_able_to_see_tasks_loggedin.jpg)
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+![Profiles with access](assets/images/backend_able_to_see_profiles_loggedin.jpg)
+### Summary
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+These tests confirmed that the backend correctly enforces authentication and authorization rules, ensuring that user data is secure and private.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+## Credits
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+I would like to extend my gratitude to the following individuals and organizations for their invaluable support during this project:
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+- **Code Institute**: Thank you for your assistance and for the guidance provided through the Moments project. Your resources and support have been instrumental in the development of this application.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+- **ChatGPT**: I appreciate the help with writing the "About" section of the application and for assistance with debugging. Your insights and suggestions have greatly enhanced the quality of this project.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+- **My Mentor**: A special thank you to my mentor for their continuous support and guidance throughout this project. Your expertise and feedback have been crucial to its success.
