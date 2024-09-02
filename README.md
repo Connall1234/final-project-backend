@@ -46,6 +46,7 @@ The backend of this application is built using Python and the Django framework. 
 
 - **Standard User Access**: 
   - Apart from the superuser, standard users can only access their own profiles and tasks. Users are restricted from accessing or modifying the profiles and tasks of other users. This access control is enforced by Django’s authentication and permission system, ensuring that user data remains secure and private.
+
 ## Backend Testing
 
 ### Access Control Testing
@@ -69,6 +70,7 @@ We conducted a series of tests to ensure that access control is properly enforce
 ![Tasks with access](assets/images/backend_able_to_see_tasks_loggedin.jpg)
 
 ![Profiles with access](assets/images/backend_able_to_see_profiles_loggedin.jpg)
+
 ### Summary
 
 These tests confirmed that the backend correctly enforces authentication and authorization rules, ensuring that user data is secure and private.
