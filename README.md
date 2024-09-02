@@ -75,6 +75,42 @@ We conducted a series of tests to ensure that access control is properly enforce
 
 These tests confirmed that the backend correctly enforces authentication and authorization rules, ensuring that user data is secure and private.
 
+## Deployment Guide: React Frontend with Django Backend on Heroku
+
+This guide outlines the steps to deploy your full-stack application, which includes a React frontend and a Django backend, to Heroku. The React frontend communicates with the Django backend via Axios.
+
+### Prerequisites
+
+Before you start, ensure you have the following:
+- A [Heroku](https://heroku.com) account
+- Heroku CLI installed
+- Git installed
+- Node.js and Python installed on your machine
+- A PostgreSQL database (Heroku provides one in production)
+
+### 1. Set Up Your Django Backend for Deployment
+
+1. Install necessary packages, such as Gunicorn (for serving your Django app) and Whitenoise (for handling static files).
+2. Update the `settings.py` file:
+   - Configure `ALLOWED_HOSTS` for production.
+   - Set up static file handling using Whitenoise.
+   - Configure the database to use PostgreSQL in production (use `dj-database-url`).
+3. Create a `Procfile` in the root directory to specify the command to run your application (e.g., using Gunicorn).
+4. Add env.py file to your gitignore so any secret keys aren't shared.
+5. Collect static files for production.
+
+### 2. Set Up Your React Frontend for Deployment
+
+1. In your React project, update the Axios base URL to point to the production Django backend API.
+2. Build the React project using `npm run build` or `yarn build`. This generates static files for deployment.
+3. Ensure your React app is configured to handle routing properly on Heroku (e.g., using `BrowserRouter`).
+
+### 3. Prepare for Deployment on Heroku
+
+1. Create a Heroku app using the Heroku CLI:  
+   ```bash
+   heroku create your-app-name
+
 ## Credits
 
 I would like to extend my gratitude to the following individuals and organizations for their invaluable support during this project:
