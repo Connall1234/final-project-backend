@@ -138,10 +138,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'final_project_backend.wsgi.application'
 
-# Database
+# Database config
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if 'DEV' in os.environ:
+    DATABASES = {
+            'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        }
+else:
     DATABASES = {
             'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
         }
