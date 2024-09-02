@@ -55,4 +55,3 @@ class ProfileView(APIView):
             {'detail': 'Not authorized to update this profile.'},
             status=status.HTTP_403_FORBIDDEN
         )
-#pepchecked

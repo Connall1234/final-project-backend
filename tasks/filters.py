@@ -15,4 +15,3 @@ class TaskFilter(django_filters.FilterSet):
             'title': ['icontains'],
             'description': ['icontains'],
         }
-#pepchecked

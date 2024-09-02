@@ -56,4 +56,3 @@ class Task(models.Model):
             str: The title of the task.
         """
         return self.title
-#pepchecked

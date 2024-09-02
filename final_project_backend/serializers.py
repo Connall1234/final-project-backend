@@ -14,4 +14,3 @@ class CurrentUserSerializer(UserDetailsSerializer):
             'profile_id',
             'profile_image'
         )
-#pepchecked

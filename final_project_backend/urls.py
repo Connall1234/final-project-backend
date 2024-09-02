@@ -32,4 +32,3 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('tasks.urls')),
 ]
-#pepchecked, remember to check the paths

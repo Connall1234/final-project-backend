@@ -22,4 +22,3 @@ class TaskSerializer(serializers.ModelSerializer):
             'id', 'owner', 'start_date', 'completed', 'priority', 'category',
             'title', 'description',
         ]
-#pepchecked

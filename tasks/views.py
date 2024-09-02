@@ -115,4 +115,3 @@ class TaskView(generics.GenericAPIView):
         self.check_object_permissions(request, task)
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-#pep8checked

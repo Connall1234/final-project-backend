@@ -30,4 +30,3 @@ class ProfileSerializer(serializers.ModelSerializer):
         Get the total count of tasks for the profile's owner.
         """
         return obj.owner.tasks.count()
-#pepchecked
